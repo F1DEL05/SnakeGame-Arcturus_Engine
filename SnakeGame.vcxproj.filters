@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{a90a60da-5b9a-4103-a3b1-e0df1b0562df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\SourceCode">
+      <UniqueIdentifier>{e2b10974-1f05-4250-bb8f-ca59fab1d90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\HeaderFiles">
+      <UniqueIdentifier>{8a51405d-27c4-4399-a78f-aa144ba71765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{94202799-6196-48ce-bdec-bc09017414fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\SourceCode">
+      <UniqueIdentifier>{017bb67a-e09f-41ed-af31-ace779dfb954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HeaderFiles">
+      <UniqueIdentifier>{799e0c64-f031-4e4b-aedd-71252a84fa21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader">
+      <UniqueIdentifier>{39a7bb4b-63ba-468b-afe2-c6da767f8d75}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Game\SourceCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>GameEngine\SourceCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Game\SourceCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>Game\SourceCode</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ShaderProgram.hpp">
+      <Filter>GameEngine\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.hpp">
+      <Filter>Game\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.hpp">
+      <Filter>Game\HeaderFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\vshader.glsl">
+      <Filter>Game\Shader</Filter>
+    </None>
+    <None Include="Shaders\fshader.glsl">
+      <Filter>Game\Shader</Filter>
+    </None>
+  </ItemGroup>
+</Project>
