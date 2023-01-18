@@ -1,7 +1,7 @@
 #include"Square.hpp"
 Square::Square(glm::vec3 position, glm::vec4 color, float length,Square::DIRECTION dir) {
 	this->position = position;
-	this->color = color;
+	this->color = glm::vec4((float)(1 + (rand() % 2)) / (float)(1 + rand() % 5), (float)(1 + (rand() % 2)) / (float)(1 + rand() % 5), (float)(1 + (rand() % 2)) / (float)(1 + rand() % 5),1.0f);
 	this->length = length;
 	this->direction = dir;
 }

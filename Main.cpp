@@ -127,6 +127,8 @@ int main() {
 	Food* food = new Food();
 	int point = 0;
 	irrklang::ISoundEngine* sound = irrklang::createIrrKlangDevice();
+	irrklang::ik_f32 a(0.6f);
+	sound->setSoundVolume(a);
 	sound->play2D("asd.wav", true);
 	system("cls");
 	while (!glfwWindowShouldClose(window))
@@ -145,7 +147,7 @@ int main() {
 		}
 		if (glfwGetKey(window,GLFW_KEY_RIGHT))
 		{
-			if (SquareList[0]->getDirection()!=-Square::DIRECTION_RIGHT)
+			if (true)
 			{
 				SquareList[0]->setDirection(Square::DIRECTION_RIGHT);
 			}
@@ -155,7 +157,7 @@ int main() {
 		}
 		if (glfwGetKey(window,GLFW_KEY_LEFT))
 		{
-			if (SquareList[0]->getDirection() != -Square::DIRECTION_LEFT)
+			if (true)
 			{
 				SquareList[0]->setDirection(Square::DIRECTION_LEFT);
 			}
@@ -163,7 +165,7 @@ int main() {
 		}
 		if (glfwGetKey(window,GLFW_KEY_UP))
 		{
-			if (SquareList[0]->getDirection() != -Square::DIRECTION_UP)
+			if (true)
 			{
 				SquareList[0]->setDirection(Square::DIRECTION_UP);
 			}
@@ -171,7 +173,7 @@ int main() {
 		}
 		if (glfwGetKey(window,GLFW_KEY_DOWN))
 		{
-			if (SquareList[0]->getDirection() != -Square::DIRECTION_DOWN)
+			if (true)
 			{
 				SquareList[0]->setDirection(Square::DIRECTION_DOWN);
 			}
@@ -214,7 +216,7 @@ int main() {
 		glfwSwapBuffers(window);
 	}
 	sound->stopAllSounds();
-	std::cout << std::endl << "\n Kapatmak icin Herhangi Bir Tusa Basiniz ....";
+	std::cout << std::endl << "\n Kapatmak icin Enter'a Basiniz ....";
 	std::cin.get();
 	return 0;
 }
