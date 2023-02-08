@@ -1,4 +1,4 @@
 ﻿  Main.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': makro yeniden tanımlama
-G:\SnakeGame\include\GLFW\glfw3.h(123,1): message : önceki 'APIENTRY' tanımına bakın
-  SnakeGame.vcxproj -> G:\SnakeGame\Debug\SnakeGame.exe
+C:\Users\mehme\OneDrive\Masaüstü\OpenGL Games\SnakeGame\include\GLFW\glfw3.h(123,1): message : önceki 'APIENTRY' tanımına bakın
+  SnakeGame.vcxproj -> C:\Users\mehme\OneDrive\Masaüstü\OpenGL Games\SnakeGame\Debug\SnakeGame.exe

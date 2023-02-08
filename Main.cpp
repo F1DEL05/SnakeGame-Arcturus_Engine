@@ -15,30 +15,30 @@ const char* title = "Snake Game";
 float length = 0.05f;
 float speed = 0.002f;
 float vertices[] = {
-	 length / 2, length / 2,0.0f,
-	 length / 2,-length / 2,0.0f,
-	-length / 2,-length / 2,0.0f,
-
-	 length / 2, length / 2,0.0f,
-	-length / 2,-length / 2,0.0f,
-	-length / 2, length / 2,0.0f
+	 length / 2, length / 2,0.0f,1,0,0,
+	 length / 2,-length / 2,0.0f,0,0,1,
+	-length / 2,-length / 2,0.0f,0,1,1,
+	-length / 2,length / 2, 0.0f,1,1,1,
+};
+unsigned int indices[] = {
+	0,1,2,
+	0,3,2
 };
 std::vector<Square*> SquareList;
 void draw_Square(Shader& program) {
-	for (auto square:SquareList)
+	for (auto square : SquareList)
 	{
-		program.setVec4("uColor", square->getColor());
 		program.setVec3("uPosition", square->getPosition());
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
 	}
 }
 void move() {
-	for (auto square:SquareList)
+	for (auto square : SquareList)
 	{
 		square->move(length);
 	}
 }
-void draw_Food(Shader& program,Food* food) {
+void draw_Food(Shader& program, Food* food) {
 	program.setVec3("uPosition", food->getPosition());
 	program.setVec4("uColor", food->getColor());
 	glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -49,28 +49,28 @@ void AddToTail() {
 	switch (last_dir)
 	{
 	case Square::DIRECTION_RIGHT:
-		last_pos += glm::vec3(-length,0,0);
+		last_pos += glm::vec3(-length, 0, 0);
 		break;
 	case Square::DIRECTION_LEFT:
 		last_pos += glm::vec3(length, 0, 0);
 		break;
 	case Square::DIRECTION_UP:
-		last_pos += glm::vec3(0,-length, 0);
+		last_pos += glm::vec3(0, -length, 0);
 		break;
 	case Square::DIRECTION_DOWN:
 		last_pos += glm::vec3(0, length, 0);
 		break;
 	}
-	Square* square = new Square(last_pos, glm::vec4(1.0, 0, 0, 1), length,last_dir);
+	Square* square = new Square(last_pos, length, last_dir);
 	square->setDirection(last_dir);
 	SquareList.push_back(square);
 }
 
 void set_dir() {
 	Square::DIRECTION tail_dir = SquareList[SquareList.size() - 1]->getDirection();
-	for (int i=SquareList.size()-1;i>0;i--)
+	for (int i = SquareList.size() - 1; i > 0; i--)
 	{
-		SquareList[i]->setDirection(SquareList[i-1]->getDirection());
+		SquareList[i]->setDirection(SquareList[i - 1]->getDirection());
 	}
 }
 int main() {
@@ -82,18 +82,18 @@ int main() {
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	GLFWwindow* window = glfwCreateWindow(w, h,title, NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(w, h, title, NULL, NULL);
 	glfwMakeContextCurrent(window);
-	if (window==nullptr)
+	if (window == nullptr)
 	{
 		std::cout << "Pencere Baslatilamadi !";
 		glfwTerminate();
 	}
 	glewExperimental = GLFW_TRUE;
-	if (glewInit()!=GLEW_OK)
+	if (glewInit() != GLEW_OK)
 	{
 		std::cout << "Glew Baslatilamadi !";
 		glfwTerminate();
@@ -116,14 +116,15 @@ int main() {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, NULL, NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	program.ConnectVariable("uPosition");
-	program.ConnectVariable("uColor");
-	SquareList.push_back(new Square(glm::vec3(0, 0, 0), glm::vec4(0, 1, 0, 1), length,Square::DIRECTION_RIGHT));
+	SquareList.push_back(new Square(glm::vec3(0, 0, 0), length, Square::DIRECTION_RIGHT));
 	Food* food = new Food();
 	int point = 0;
 	irrklang::ISoundEngine* sound = irrklang::createIrrKlangDevice();
@@ -135,27 +136,27 @@ int main() {
 	{
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
-		if (glfwGetKey(window,GLFW_KEY_ESCAPE))
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE))
 		{
 			glfwTerminate();
 			glfwDestroyWindow(window);
 			break;
 		}
-		if (glfwGetKey(window,GLFW_KEY_F))
+		if (glfwGetKey(window, GLFW_KEY_F))
 		{
 			AddToTail();
 		}
-		if (glfwGetKey(window,GLFW_KEY_RIGHT))
+		if (glfwGetKey(window, GLFW_KEY_RIGHT))
 		{
 			if (true)
 			{
 				SquareList[0]->setDirection(Square::DIRECTION_RIGHT);
 			}
-			
+
 
 
 		}
-		if (glfwGetKey(window,GLFW_KEY_LEFT))
+		if (glfwGetKey(window, GLFW_KEY_LEFT))
 		{
 			if (true)
 			{
@@ -163,7 +164,7 @@ int main() {
 			}
 
 		}
-		if (glfwGetKey(window,GLFW_KEY_UP))
+		if (glfwGetKey(window, GLFW_KEY_UP))
 		{
 			if (true)
 			{
@@ -171,7 +172,7 @@ int main() {
 			}
 
 		}
-		if (glfwGetKey(window,GLFW_KEY_DOWN))
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
 		{
 			if (true)
 			{
@@ -181,21 +182,21 @@ int main() {
 		}
 		move();
 		set_dir();
-		if (SquareList[0]->getPosition().x> 1.0f+length/2 || SquareList[0]->getPosition().x<-1.0f-length/2)
+		if (SquareList[0]->getPosition().x > 1.0f + length / 2 || SquareList[0]->getPosition().x < -1.0f - length / 2)
 		{
-			glfwTerminate(); 
+			glfwTerminate();
 			glfwDestroyWindow(window);
-			std::cout <<std::endl<< "Duvara Carptin !";
+			std::cout << std::endl << "Duvara Carptin !";
 			break;
 		}
-		if (SquareList[0]->getPosition().y> 1.0f+(3*length/2) || SquareList[0]->getPosition().y<-1.0f-(3*length/2))
+		if (SquareList[0]->getPosition().y > 1.0f + (3 * length / 2) || SquareList[0]->getPosition().y < -1.0f - (3 * length / 2))
 		{
-			glfwTerminate(); 
+			glfwTerminate();
 			glfwDestroyWindow(window);
-			std::cout <<std::endl<< "Duvara Carptin !";
+			std::cout << std::endl << "Duvara Carptin !";
 			break;
 		}
-		if (food->check_food(SquareList[0]->getPosition(),length))
+		if (food->check_food(SquareList[0]->getPosition(), length))
 		{
 			point++;
 			std::cout << std::endl << "Puan :" << point;

@@ -1,13 +1,11 @@
 #include"Square.hpp"
-Square::Square(glm::vec3 position, glm::vec4 color, float length,Square::DIRECTION dir) {
+Square::Square(glm::vec3 position, float length,Square::DIRECTION dir) {
 	this->position = position;
-	this->color = glm::vec4((float)(1 + (rand() % 2)) / (float)(1 + rand() % 5), (float)(1 + (rand() % 2)) / (float)(1 + rand() % 5), (float)(1 + (rand() % 2)) / (float)(1 + rand() % 5),1.0f);
+	
 	this->length = length;
 	this->direction = dir;
 }
-glm::vec4 Square::getColor() {
-	return color;
-}
+
 glm::vec3 Square::getPosition() {
 	return position;
 }
@@ -20,9 +18,7 @@ void Square::setDirection(Square::DIRECTION direction) {
 void Square::setPosition(glm::vec3 position) {
 	this->position = position;
 }
-void Square::setColor(glm::vec4 color) {
-	this->color = color;
-}
+
 void Square::move(float speed) {
 	switch (direction) {
 	case Square::DIRECTION_RIGHT:
