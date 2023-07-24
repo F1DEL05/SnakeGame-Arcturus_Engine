@@ -1,6 +1,6 @@
 # SnakeGame
 
-    :::::running the project:::::
+    :::::run the project:::::
 if you want to get an executable project folder , you should download "debug" folder and click SnakeGame.exe file
 
        :::::source code:::::
